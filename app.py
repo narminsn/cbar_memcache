@@ -3,7 +3,7 @@ from request import parse_data
 from  datetime import date, datetime, timedelta
 from pymemcache.client import base
 import ast
-from cache import cached_data
+from cache import cached_data, cache_code
 
 app = Flask("app")
 
@@ -19,9 +19,10 @@ def get():
 
 @app.route('/currency/<code>', methods=['GET'])
 def usd(code):
-    for item in cached_data():
-        if item["code"] == code:
-            return jsonify(item)
-    return jsonify({"error":"melumat tapilmadi"})
+    data = cache_code(code)
+    if data:
+        return jsonify(data)
+    else:
+        return jsonify({"error":"melumat tapilmadi"})
 
 app.run(debug=True, host='0.0.0.0', port=8000)

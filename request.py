@@ -4,7 +4,7 @@ import requests
 import json, xmljson
 from lxml.html import fromstring, tostring
 
-second = datetime.datetime.now().second
+
 
 symvol_list = (
 ("ə", "e"), ("ü", "u"), ("ç", "c"), ("ı", "i"), ("ö", "o"), ("ğ", "g"), ('ş', 's'), ("İ", "I"), ('Ğ', 'G'), ('Ü', 'U'),
@@ -18,6 +18,7 @@ def replace_func(word):
     return word
 
 def parse_data(url):
+    second = datetime.datetime.now().second
     response = requests.get(url)
 
     bank_mezenne = []
@@ -37,7 +38,6 @@ def parse_data(url):
             "name": name,
             "value": item["value"]["$"],
             'time': second
-
         }
 
         bank_mezenne.append(obj)
